@@ -1,0 +1,20 @@
+  luna-deployment.yaml
+  template:
+    spec:
+      containers:
+        - name: luna
+          image: harbor.inner.galaxy.ksyun.com/galaxy/luna-controller:0.1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8443
+              name: webhook
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /tmp/k8s-webhook-server/serving-certs
+              name: cert
+              readOnly: true
+      volumes:
+        - name: cert
+          secret:
+            defaultMode: 420
+            secretName: luna-cert

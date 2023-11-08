@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: sobey-cert
+  namespace: default
+spec:
+  dnsNames:
+    - sobey-webhook.default.svc
+    - sobey-webhook.default.svc.cluster.local
+  issuerRef:
+    kind: Issuer
+    name: selfsigned-issuer
+  secretName: sobey-cert

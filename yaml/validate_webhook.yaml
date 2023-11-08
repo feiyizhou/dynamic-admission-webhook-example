@@ -1,0 +1,32 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  annotations:
+    cert-manager.io/inject-ca-from: default/luna-cert
+  name: luna-validating-webhook-configuration
+webhooks:
+  - admissionReviewVersions:
+      - v1beta1
+    clientConfig:
+      service:
+        name: luna-webhook
+        namespace: default
+        path: /luna-validate-webhook
+        port: 443
+    failurePolicy: Fail
+    matchPolicy: Equivalent
+    name: vservice
+    rules:
+      - apiGroups:
+          - ""
+        apiVersions:
+          - v1
+        operations:
+          - CREATE
+          - UPDATE
+        resources:
+          - services
+        scope: '*'
+    sideEffects: None
+    timeoutSeconds: 10
+
